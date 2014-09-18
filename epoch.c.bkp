@@ -1,0 +1,227 @@
+/*
+ * epoch.c
+ *
+ *  Created on: 06/06/2012
+ *      Author: cuki
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define umMinuto	60
+#define umaHora		3600
+#define umDia		86400
+#define mesFev		2419200 //umDia * 28
+#define umMes		2592000
+#define	umMesX		2678400 //umMes + umDia
+#define umAno		31536000 //365 * umDia
+#define umAnoBi		126230400 //4 * umAno + umDia
+//Epoch 1/jan/1970 00:00:00
+
+int main(int argc, char **argv) {
+
+	long double dataAtual = atoi(argv[1]);
+	//	long double dataAtual = 1339009151;
+	long double cont = 1;
+	short ano = 1970;
+	char contBisexto = 2;
+	char mes = 1;
+	char dia = 1;
+	char hora = 0;
+	char minuto = 0;
+	char segundo = 0;
+	char ehBisexto = 0;
+
+	for (cont = 0; cont < dataAtual; cont++) {
+		segundo++;
+		if (segundo == 60) {
+			segundo = 0;
+			minuto++;
+			if (minuto == 60) {
+				minuto = 0;
+				hora++;
+				if (hora == 24) {
+					hora = 0;
+					dia++;
+					if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes
+							== 8 || mes == 10 || mes == 12) {
+						if (dia == 32) {
+							dia = 1;
+							mes++;
+							if (mes == 13) {
+								mes = 1;
+								ano++;
+								contBisexto++;
+								if (contBisexto == 4) {
+									contBisexto = 0;
+									ehBisexto = 1;
+								} else
+									ehBisexto = 0;
+							}
+						}
+					} else if (mes == 2) {
+						if (ehBisexto) {
+							if (dia == 30) {
+								dia = 1;
+								mes++;
+							}
+						} else if (dia == 29) {
+							dia = 1;
+							mes++;
+						}
+					} else {
+						if (dia == 31) {
+							dia = 1;
+							mes++;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//	printf("\n%d ano", ano);
+	//	printf("\n%d mes", mes);
+	//	printf("\n%d dia", dia);
+	//	printf("\n%d hora", hora);
+	//	printf("\n%d minuto", minuto);
+	//	printf("\n%d segundo", segundo);
+	printf("\n\n%d/%d/%d %d:%d:%d", dia, mes, ano, hora, minuto, segundo);
+
+	return EXIT_SUCCESS;
+}
+
+/*int main(int argc, char **argv) {
+
+ unsigned int dataAtual = atoi(argv[1]);
+ unsigned short nrAnosBixsextos = 0;
+ unsigned short anoAtual = 0;
+ unsigned short nrAnos = 0;
+ unsigned char mesAtual = 0;
+ unsigned char nrDias = 0;
+ unsigned char horas = 0;
+ unsigned char minutos = 0;
+ unsigned int aux = 0;
+
+ nrAnosBixsextos = dataAtual / umAnoBi + 1;
+ nrAnos = (dataAtual - umDia * nrAnosBixsextos) / umAno;
+ anoAtual = nrAnos + 1970;
+ aux = (anoAtual * umAno) + (nrAnosBixsextos * umDia);
+ nrDias = dataAtual - aux;
+
+ printf("\n%d", dataAtual);
+ printf("\n%d", nrAnosBixsextos);
+ printf("\n%d", nrAnos);
+ printf("\n%d", anoAtual);
+ printf("\n%u", aux);
+ printf("\n%d", nrDias);
+
+ return EXIT_SUCCESS;
+
+ }*/
+
+/*int main(int argc, char **argv) {
+
+ printf("\n%d um minuto", umMinuto);
+ printf("\n%d uma hora", umaHora);
+ printf("\n%d um dia", umDia);
+ printf("\n%d mesFev", mesFev);
+ printf("\n%d um mes", umMes);
+ printf("\n%d um mes x", umMesX);
+ printf("\n%d um ano", umAno);
+ printf("\n%d um ano bi\n", umAnoBi);
+
+ return EXIT_SUCCESS;
+
+ }*/
+ 
+ /*
+ * epoch.c
+ *
+ *  Created on: 06/06/2012
+ *      Author: cuki
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define umMinuto	60
+#define umaHora		3600
+#define umDia		86400
+#define mesFev		2419200 //umDia * 28
+#define umMes		2592000
+#define	umMesX		2678400 //umMes + umDia
+#define umAno		31536000 //365 * umDia
+#define umAnoBi		126230400 //4 * umAno + umDia
+//Epoch 1/jan/1970 00:00:00
+
+int main(int argc, char **argv) {
+
+	double dataAtual = atof(argv[1]);
+	unsigned short nrDias = 0;
+	unsigned short cont = 0;
+	unsigned short nrAnosBixsextos = 0;
+	unsigned short anoAtual = 1970;
+	unsigned short nrAnos = 0;
+	unsigned short mes = 1;
+	unsigned short dia = 1;
+	unsigned short ehBisexto = 0;
+	unsigned short horas = 0;
+	unsigned short minutos = 0;
+	unsigned short segundos = 0;
+
+	for (cont = 1970; cont <= (dataAtual / umAno) + 1970; cont++) {
+		if (((!(cont % 4)) && (cont % 100)) || (!(cont % 400)))
+			nrAnosBixsextos++;
+	}
+
+	nrAnos = (dataAtual - umDia * nrAnosBixsextos) / umAno;
+	anoAtual += nrAnos;
+	nrDias = (dataAtual - ((double) nrAnos * umAno) - ((double) nrAnosBixsextos
+			* umDia)) / umDia;
+	ehBisexto
+			= (((!(anoAtual % 4)) && (anoAtual % 100)) || (!(anoAtual % 400))) ? 1
+					: 0;
+
+	for (cont = 1; cont <= nrDias; ++cont) {
+		++dia;
+		if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes
+				== 10 || mes == 12) {
+			if (dia == 32) {
+				++mes;
+				dia = 1;
+			}
+		} else if (mes == 2) {
+			if (ehBisexto) {
+				if (dia == 30) {
+					++mes;
+					dia = 1;
+				}
+			} else if (dia == 29) {
+				++mes;
+				dia = 1;
+			}
+		} else {
+			if (dia == 31) {
+				mes++;
+				dia = 1;
+			}
+		}
+	}
+
+	horas = (dataAtual - ((double) nrAnos * umAno) - ((double) nrAnosBixsextos
+			* umDia) - ((double) nrDias * umDia)) / umaHora;
+	minutos = (dataAtual - ((double) nrAnos * umAno)
+			- ((double) nrAnosBixsextos * umDia) - ((double) nrDias * umDia)
+			- ((double) horas * umaHora)) / umMinuto;
+	segundos = (dataAtual - ((double) nrAnos * umAno)
+			- ((double) nrAnosBixsextos * umDia) - ((double) nrDias * umDia)
+			- ((double) horas * umaHora) - ((double) minutos * umMinuto));
+
+	printf("%d/%d/%d %d:%d:%d", dia, mes, anoAtual, horas, minutos,
+			segundos);
+
+	return EXIT_SUCCESS;
+
+}
+ 

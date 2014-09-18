@@ -1,0 +1,8 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=61004DF6
+eax=00000000 ebx=6100513D ecx=00B2ACE0 edx=771570B4 esi=FFFFFFFF edi=00000000
+ebp=10000000 esp=00B2ACDC program=\\?\C:\Cygwin\lib\gcc\i686-pc-cygwin\4.5.3\cc1.exe, pid 5888, thread unknown (0x1370)
+cs=001B ds=0023 es=0023 fs=003B gs=0000 ss=0023
+Stack trace:
+Frame     Function  Args
+10000000  61004DF6  (00000004, 0000FFFF, 000000B8, 00000000)
+      1 [unknown (0x1370)] gcc 5888! exception::handle: Error while dumping state (probably corrupted stack)
